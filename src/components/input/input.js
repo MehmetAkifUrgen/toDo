@@ -7,8 +7,9 @@ const Input = ({
   placeholder,
   text,
   secureTextEntry,
+  placeholderTextColor,
   keyboardType,
-  theme = 'primary',
+  theme = 'secondary',
 }) => {
   return (
     <View style={styles[theme].container}>
@@ -18,7 +19,7 @@ const Input = ({
         onChangeText={onChangeText}
         placeholder={placeholder}
         style={styles[theme].input}
-        placeholderTextColor={'grey'}
+        placeholderTextColor={placeholderTextColor}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
       />

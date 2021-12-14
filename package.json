@@ -18,6 +18,8 @@
     "@reduxjs/toolkit": "^1.6.2",
     "accordion-collapse-react-native": "^1.1.0",
     "axios": "^0.24.0",
+    "expo": "^43.0.4",
+    "expo-splash-screen": "~0.13.5",
     "react": "17.0.2",
     "react-native": "0.66.3",
     "react-native-safe-area-context": "^3.3.2",

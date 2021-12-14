@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, Modal} from 'react-native';
+import {Text, View, Modal, KeyboardAvoidingView} from 'react-native';
 import Input from '../../components/input';
 import styles from './login.style';
 import Button from '../../components/button';
@@ -17,6 +17,9 @@ const Login = ({navigation}) => {
       .signInWithEmailAndPassword(mail, password)
       .then(() => {
         console.log('Hoşgeldiniz!');
+        setMail('');
+        setPassword('');
+        navigation.navigate('HomePage');
       })
       .catch(error => {
         if (error.code === 'auth/invalid-email') {
@@ -27,7 +30,10 @@ const Login = ({navigation}) => {
 
   console.log(mail);
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior="height"
+      enabled={false}
+      style={styles.container}>
       <Header />
       <View style={styles.body}>
         <Input
@@ -49,7 +55,7 @@ const Login = ({navigation}) => {
           <Button onPress={gotoSign} text="Kayıt Ol" theme="secondary" />
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

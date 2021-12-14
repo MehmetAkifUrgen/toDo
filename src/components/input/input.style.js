@@ -20,11 +20,12 @@ export default {
   secondary: StyleSheet.create({
     container: {margin: 5},
     input: {
-      padding: 5,
+      backgroundColor: 'white',
+      padding: 10,
       borderWidth: 2,
       width: screen.width * 0.8,
       borderRadius: 5,
-      color: 'white',
+      color: 'tomato',
       borderColor: 'tomato',
     },
     text: {

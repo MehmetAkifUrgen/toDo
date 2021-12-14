@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Text, View} from 'react-native';
+import {Alert, KeyboardAvoidingView, View} from 'react-native';
 import styles from './sign.style';
 import Input from '../../components/input';
 import Button from '../../components/button';
@@ -16,6 +16,9 @@ const Sign = ({navigation}) => {
         .createUserWithEmailAndPassword(mail, password)
         .then(() => {
           Alert.alert('Kayıt Başarılı');
+          setPassword('');
+          setMail('');
+          setRePassword('');
           navigation.navigate('LoginPage');
         })
         .catch(error => {
@@ -33,7 +36,10 @@ const Sign = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior="height"
+      enabled={false}
+      style={styles.container}>
       <Header />
       <View style={styles.body}>
         <Input
@@ -59,7 +65,7 @@ const Sign = ({navigation}) => {
         />
         <Button onPress={signUp} text="Kayıt Ol" theme="secondary" />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from 'react-native';
 import styles from './home.style';
 import Button from '../../components/button';
@@ -13,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-const Home = ({params}) => {
+const Home = ({navigation}) => {
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
@@ -30,9 +31,31 @@ const Home = ({params}) => {
   const [itemindex, setItemIndex] = useState(null);
   const getData = async () => {
     const veri = await firestore().collection(user).get();
-    console.log(veri._docs[0]._ref._documentPath);
+    // console.log(veri._docs[0]._ref._documentPath);
     setData(veri._docs);
   };
+  const signOut = async () => {
+    await auth().signOut();
+    navigation.navigate('LoginPage');
+  };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'TODO',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'tomato',
+      },
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontSize: 25,
+      },
+      headerLeft: () => (
+        <Icon onPress={signOut} color={'white'} size={30} name="exit-to-app" />
+      ),
+    });
+  }, [navigation]);
+
   useEffect(() => {
     getData();
   }, [visible]);
@@ -59,7 +82,7 @@ const Home = ({params}) => {
   const detayEkle = async value => {
     const ref = await firestore().collection(user);
     const verii = await ref.doc(value).collection(value).get();
-    console.log(verii._docs);
+    // console.log(verii._docs);
     setItemData(verii._docs);
 
     if (itemvalue != '') {
@@ -75,50 +98,69 @@ const Home = ({params}) => {
     setItemValue('');
   };
   const update = async (item, dataa) => {
-    console.log(item, 'asddf', dataa);
+    // console.log(item, 'asddf', dataa);
     firestore().doc(`${user}/${item}/${item}/${dataa}`).update({
       name: temp,
     });
     setUpdateVisible(!updatevisible);
     setShow(!show);
   };
+  const deleteListItem = (item, dataa) => {
+    firestore().doc(`${user}/${item}/${item}/${dataa}`).update({
+      name: '',
+    });
+    setUpdateVisible(!updatevisible);
+    setShow(!show);
+  };
   const itemRender = ({item, index}) => {
-    // console.log('veriiiiiiiiiiiiiii,', index);
-    // console.log('stateee', itemData[0]._ref._documentPath._parts[3]);
     return (
-      <TouchableOpacity
-        onPress={() => {
-          setUpdateVisible(!updatevisible), setItemIndex(index);
-        }}>
-        {!updatevisible && (
-          <View style={styles.listItemView}>
-            <Text style={styles.itemText}>- {itemData[index]._data.name} </Text>
-            <Icon size={30} name="delete" color={'tomato'} />
-          </View>
-        )}
-        {updatevisible && index == itemindex && (
-          <View style={styles.inputView}>
-            <TextInput
-              value={temp}
-              onChangeText={text => setTemp(text)}
-              placeholder={'Yeni değeri girin...'}
-              placeholderTextColor={'tomato'}
-              style={styles.input}
-            />
-            <Icon
-              onPress={() =>
-                update(
-                  itemData[index]._ref._documentPath._parts[1],
-                  itemData[index]._ref._documentPath._parts[3],
-                )
-              }
-              size={30}
-              name="check"
-              color={'tomato'}
-            />
-          </View>
-        )}
-      </TouchableOpacity>
+      <KeyboardAvoidingView behavior="height" enabled={false}>
+        <TouchableOpacity
+          onPress={() => {
+            setUpdateVisible(!updatevisible), setItemIndex(index);
+          }}>
+          {!updatevisible && (
+            <View style={styles.listItemView}>
+              <Text style={styles.itemText}>
+                - {itemData[index]._data.name}{' '}
+              </Text>
+              <Icon
+                onPress={() =>
+                  deleteListItem(
+                    itemData[index]._ref._documentPath._parts[1],
+                    itemData[index]._ref._documentPath._parts[3],
+                  )
+                }
+                size={30}
+                name="delete"
+                color={'tomato'}
+              />
+            </View>
+          )}
+          {updatevisible && index == itemindex && (
+            <View style={styles.inputView}>
+              <TextInput
+                value={temp}
+                onChangeText={text => setTemp(text)}
+                placeholder={'Yeni değeri girin...'}
+                placeholderTextColor={'tomato'}
+                style={styles.input}
+              />
+              <Icon
+                onPress={() =>
+                  update(
+                    itemData[index]._ref._documentPath._parts[1],
+                    itemData[index]._ref._documentPath._parts[3],
+                  )
+                }
+                size={30}
+                name="check"
+                color={'tomato'}
+              />
+            </View>
+          )}
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     );
   };
   const itemPress = async (datas, index) => {
@@ -147,12 +189,6 @@ const Home = ({params}) => {
             {item._ref._documentPath._parts[1]}
           </Text>
           <View style={styles.iconView}>
-            <Icon
-              backgroundColor={'white'}
-              color={'tomato'}
-              name="pencil"
-              size={30}
-            />
             <Icon
               onPress={() => deleteCategory(item._ref._documentPath._parts[1])}
               backgroundColor={'white'}

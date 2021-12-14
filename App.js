@@ -6,17 +6,37 @@ import Sign from './src/auth/sign';
 import auth from '@react-native-firebase/auth';
 import Home from './src/pages/home';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as SplashScreen from 'expo-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
+SplashScreen.preventAutoHideAsync()
+  .then(result =>
+    console.log(`SplashScreen.preventAutoHideAsync() succeeded: ${result}`),
+  )
+  .catch(console.warn); // it's good to explicitly catch and inspect any error
+const user = auth().currentUser;
 function App() {
-  const user = auth().currentUser;
+  useEffect(() => {
+    setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 2000);
+  }, []);
+
   if (user == null) {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="LoginPage" component={Login} />
-          <Stack.Screen name="SignPage" component={Sign} />
+        <Stack.Navigator>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="LoginPage"
+            component={Login}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SignPage"
+            component={Sign}
+          />
           <Stack.Screen name="HomePage" component={Home} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -25,23 +45,16 @@ function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="HomePage" component={Home} />
           <Stack.Screen
-            options={{
-              title: 'TODO',
-              headerTintColor: 'white',
-              headerStyle: {
-                backgroundColor: 'tomato',
-              },
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                fontSize: 25,
-              },
-              headerLeft: () => (
-                <Icon color={'white'} size={30} name="exit-to-app" />
-              ),
-            }}
-            name="HomePage"
-            component={Home}
+            options={{headerShown: false}}
+            name="LoginPage"
+            component={Login}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="SignPage"
+            component={Sign}
           />
         </Stack.Navigator>
       </NavigationContainer>
