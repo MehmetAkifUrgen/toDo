@@ -22,8 +22,22 @@ function App() {
   } else {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="HomePage" component={Home} />
+        <Stack.Navigator>
+          <Stack.Screen
+            options={{
+              title: 'TODO',
+              headerTintColor: 'white',
+              headerStyle: {
+                backgroundColor: 'tomato',
+              },
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontSize: 25,
+              },
+            }}
+            name="HomePage"
+            component={Home}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -8,16 +8,17 @@ const Input = ({
   text,
   secureTextEntry,
   keyboardType,
+  theme = 'primary',
 }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}> {text} </Text>
+    <View style={styles[theme].container}>
+      <Text style={styles[theme].text}> {text} </Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        style={styles.input}
-        placeholderTextColor={'white'}
+        style={styles[theme].input}
+        placeholderTextColor={'grey'}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
       />
