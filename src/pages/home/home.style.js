@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+const widt = Dimensions.get('screen');
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -48,15 +49,32 @@ export default StyleSheet.create({
     padding: 5,
     margin: 10,
     borderRadius: 20,
+    marginTop: 20,
+    flex: 1,
   },
   itemText: {
     color: 'tomato',
     fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: 5,
+    width: widt.width * 0.6,
   },
   itemTextView: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flex: 1,
+  },
+  listItemView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+    padding: 10,
+  },
+  iconView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
 });

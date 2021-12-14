@@ -5,6 +5,8 @@ import Login from './src/auth/login';
 import Sign from './src/auth/sign';
 import auth from '@react-native-firebase/auth';
 import Home from './src/pages/home';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
               headerTitleStyle: {
                 fontSize: 25,
               },
+              headerLeft: () => (
+                <Icon color={'white'} size={30} name="exit-to-app" />
+              ),
             }}
             name="HomePage"
             component={Home}
